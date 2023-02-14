@@ -1,59 +1,71 @@
-import java.util.Random;
+
 import java.util.Scanner;
 
 public class Exercicio1 {
 
 	static Scanner scan = new Scanner(System.in);
-	 
+	public static final int N = 4;
 
- 	public static void main(String[] args) {
+	public static void main(String[] args) {
 
-		int rm[] = new int[10];
-		double nota1[] = new double[10];
-		double nota2[] = new double[10];
-		int aprovados[] = new int[10];
+		int rm[] = new int[N];
+		double nota1[] = new double[N];
+		double nota2[] = new double[N];
+		int aprovados[] = new int[N];
+		
+		
+		int y = entradaDados(rm, nota1, nota2);
+		double media[] = calculaMedia(nota1, nota2, y);
+		for (int i = 0; i < y; i++) {
+			System.out.println("RM: " + rm[i] + "\t Media: " + media[i]);
+		}
 
-		entradaDados(rm, nota1, nota2);
-		double media[] = calculaMedia(nota1, nota2);
-		geraListaAprovados(media, rm, aprovados);
+		geraListaAprovados(media,aprovados,rm, y);
 
 	}//
 
-	public static void entradaDados(int[] rm, double[] nota1, double[] nota2) {
-		
-		 Random random = new Random();
-		
-		for (int i = 0; i < 10; i++) {
-			System.out.println("Digite o RM do aluno " + (i + 1) + ":");
-			rm[i] = random.nextInt(1000);
-			if (rm[i] < 0) {
+	public static int entradaDados(int[] rm, double[] nota1, double[] nota2) {
+		int aux = 0;
+		int y = 0;
+		System.out.println("Digite um número negativo para sair ou o RM do aluno  : " + (y + 1) + ":");
+		aux = scan.nextInt();
+		while (aux > 0 && y < N) {
+			rm[y] = aux;
+			System.out.println("Digite a primeira nota do aluno " + (y + 1) + ":");
+			nota1[y] = scan.nextInt();
+
+			System.out.println("Digite a segunda nota do aluno " + (y + 1) + ":");
+			nota2[y] = scan.nextInt();
+			y++;
+			if (y == N) {
 				break;
 			}
-
-			System.out.println("Digite a primeira nota do aluno " + (i + 1) + ":");
-			nota1[i] = random.nextInt(11);
-
-			System.out.println("Digite a segunda nota do aluno " + (i + 1) + ":");
-			nota2[i] = random.nextInt(11);
+			System.out.println("Digite um número negativo para sair ou o RM do aluno  : " + (y + 1) + ":");
+			aux = scan.nextInt();
 		}
-	}
+		scan.close();
+		return y;
 
-	public static double[] calculaMedia(double[] nota1, double[] nota2) {
-		double media[] = new double[10];
+	}// end
 
-		for (int i = 0; i < 10; i++) {
+	public static double[] calculaMedia(double[] nota1, double[] nota2, int y) {
+		double media[] = new double[N];
+
+		for (int i = 0; i < y; i++) {
 			media[i] = (nota1[i] + nota2[i]) / 2;
 		}
 		return media;
 	}
 
-	public static void geraListaAprovados(double[] media, int[] aprovados, int[] rm) {
-		for (int i = 0; i < 10; i++) {
-			if (media[i] > 5) {
-				aprovados[i] = rm[i];
+	public static void geraListaAprovados(double[] media, int[] aprovados, int[] rm, int y) {
+		int nAp = 0;
+		for (int i = 0; i < y; i++) {
+			if (media[i] >= 6) {
+				aprovados[nAp] = rm[i];
+				nAp++;
 			}
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < nAp; i++) {
 			System.out.println(aprovados[i]);
 
 		}
